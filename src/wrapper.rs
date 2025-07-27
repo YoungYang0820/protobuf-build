@@ -518,9 +518,9 @@ impl FieldKind {
                 result.set = Some("v as i32".to_owned());
                 result.enum_set = true;
                 result.get = Some(format!(
-                    "match {}::from_i32(self.{}) {{\
-                        Some(e) => e,
-                        None => panic!(\"Unknown enum variant: {{}}\", self.{1}),
+                    "match {}::try_from(self.{}) {{\
+                        Ok(e) => e,
+                        Err(_) => panic!(\"Unknown enum variant: {{}}\", self.{1}),
                     }}",
                     type_in_expr_context(enum_type),
                     result.name,
